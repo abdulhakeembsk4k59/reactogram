@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// create a format to store user details
 const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
