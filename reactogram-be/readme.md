@@ -44,20 +44,20 @@ mongoose.model("UserModel", userSchema);
 ```
 
 **Explanation:**
-- In the `user_model.js` file, a user schema is defined using Mongoose.
-- The schema includes fields for the user's full name, email, password, and profile image URL.
-- The `default` property is set for the `profileImg` field, providing a default image URL if the user doesn't upload a profile picture.
+- This code remains unchanged from the previous version. It defines the user schema used for MongoDB.
 
 ### Routes
-The `routes` directory contains the `user_route.js` file, defining routes for the project.
+The `routes` directory contains the `user_route.js` file, which defines routes for the project and includes JWT functionality.
 
 ```javascript
 const express = require('express');
 const router = express.Router();
 const bcryptjs = require("bcryptjs");
-
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const UserModel = mongoose.model("UserModel");
+
+const {JWT_SECRET} = require('../config');
 
 // User Signup Route
 // ...
@@ -69,23 +69,23 @@ module.exports = router;
 ```
 
 **Explanation:**
-- In `user_route.js`, an Express router is created to define routes.
-- The router handles user signup and login routes.
-- It uses the `bcryptjs` library for secure password hashing and comparison.
-- The user model is imported and used to interact with the MongoDB database.
+- In `user_route.js`, the code now includes JWT functionality for user authentication.
+- The `jsonwebtoken` library is imported to sign JWT tokens.
+- The `JWT_SECRET` is imported from the `config.js` file, which is used to sign and verify JWT tokens.
+- The "User Signup" and "User Login" routes have been updated to include JWT token generation upon successful login.
 
 ### Configuration
-The `config.js` file contains the MongoDB local URL and exports it using `module.exports`.
+The `config.js` file now includes the `JWT_SECRET` configuration.
 
 ```javascript
 module.exports = {
-    MONGO_DB_URL: "mongodb://127.0.0.1:27017/reactogram"
+    MONGO_DB_URL: "mongodb://127.0.0.1:27017/reactogram",
+    JWT_SECRET: "skldfjue089889sdfkljjfkjsdf23334j"
 }
 ```
 
 **Explanation:**
-- The `config.js` file stores the MongoDB database URL as `MONGO_DB_URL`.
-- This URL specifies the location of the MongoDB instance, including the database name (`reactogram` in this case).
+- The `config.js` file includes the `JWT_SECRET`, a secret key used for signing and verifying JWT tokens.
 
 ### Server
 In `server.js`, the server is started using Express. It connects to the MongoDB database and sets up necessary middleware and routes.
@@ -121,15 +121,15 @@ app.listen(PORT, ()=>{
 ```
 
 **Explanation:**
-- In `server.js`, an Express server is created and configured.
+- The server setup remains largely unchanged from the previous version.
 - It connects to the MongoDB database using the URL from `config.js`.
 - CORS middleware is added to handle cross-origin requests.
 - `express.json()` is used to parse JSON data in requests.
-- The user model and routes are imported and used.
-- Finally, the server listens on port 5000, and status messages are logged to the console.
+- The user model and routes (including JWT functionality) are imported and used.
+- The server listens on port 5000, and status messages are logged to the console.
 
 ## Getting Started
-To get started with the Reactogram Backend, follow these steps:
+To get started with the Reactogram Backend (including JWT authentication), follow these steps:
 
 1. Clone this repository.
 2. Navigate to the `reactogram-be` directory.
@@ -138,8 +138,8 @@ To get started with the Reactogram Backend, follow these steps:
 5. The backend server will be accessible at `http://localhost:5000`.
 
 ## Features
-- User Signup
-- User Login
+- User Signup (with JWT)
+- User Login (with JWT)
 - (More features can be added in the future)
 
 ## Contributing
